@@ -16,7 +16,7 @@ pickled_df = "https://github.com/chowell2000/bw_spotify5/raw/master/df.pkl"
 
 model = pickle.load(urlopen(pickled))
 scaler = pickle.load(urlopen(pickled_scaler))
-lookup = pd.read_pickle(pickled_df)
+lookup = pd.read_pickle(urlopen(pickled_df))
 
 cols = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'loudness', 'speechiness', 'tempo', 'valence']
 
