@@ -8,7 +8,7 @@ import pandas as pd
 import sklearn
 from urllib.request import urlopen
 
-    
+
 app = Flask(__name__)
 pickled = "https://github.com/chowell2000/bw_spotify5/raw/master/model_1.pkl"
 pickled_scaler = "https://github.com/chowell2000/bw_spotify5/raw/master/scaler_1.pkl"
@@ -16,7 +16,7 @@ pickled_df = "https://github.com/chowell2000/bw_spotify5/raw/master/df.pkl"
 
 model = pickle.load(urlopen(pickled))
 scaler = pickle.load(urlopen(pickled_scaler))
-lookup = pd.read_pickle(urlopen(pickled_df))
+lookup = pickle.load(urlopen(pickled_df))
 
 cols = ['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'loudness', 'speechiness', 'tempo', 'valence']
 
@@ -46,9 +46,9 @@ def predict(data=None):
                 data_df = data_df.append(temp[cols])
 
             data_scaled = pd.DataFrame(scaler.transform(data_df), columns=cols)
+            data_mean = pd.DataFrame(data_scaled.mean()).T
             
-            
-            predict = model.kneighbors(data_scaled, return_distance=False)
+            predict = model.kneighbors(data_mean, return_distance=False)
 
             # return predicter[0]
             return predict
